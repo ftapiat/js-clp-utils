@@ -1,7 +1,7 @@
 {
-  "name": "@ftapiat/ts-library-template",
-  "version": "1.1.0",
-  "description": "Plantilla para desarrollar paquetes de Javascript usando Typescript",
+  "name": "@ftapiat/js-clp-utils",
+  "version": "1.0.0",
+  "description": "Librería para limpiar, formatear y generar valores a peso chileno",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -15,14 +15,19 @@
     "version": "npm run format && npm i --package-lock-only && git add ."
   },
   "keywords": [
-    "Cambiar",
-    "Por",
-    "Palabras Clave",
-    "Para indexar"
+    "CLP",
+    "clp",
+    "Peso",
+    "Chileno",
+    "Chile",
+    "limpiar",
+    "generar",
+    "formatear",
+    "typescript"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ftapiat/ts-library-template.git"
+    "url": "git+https://github.com/ftapiat/js-clp-utils.git"
   },
   "author": "ftapiat",
   "license": "MIT",
@@ -52,11 +57,10 @@
     "lib/**/*"
   ],
   "bugs": {
-    "url": "https://github.com/ftapiat/ts-library-template/issues"
+    "url": "https://github.com/ftapiat/js-clp-utils/issues"
   },
-  "homepage": "https://github.com/ftapiat/ts-library-template#readme",
+  "homepage": "https://github.com/ftapiat/js-clp-utils#readme",
   "directories": {
-    "doc": "doc",
     "lib": "lib"
   }
 }

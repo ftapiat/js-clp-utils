@@ -1,1 +1,2 @@
-export * from './function';
+export * from './models';
+export * from './utils';

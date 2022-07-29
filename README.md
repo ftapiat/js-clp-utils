@@ -1,61 +1,96 @@
-# Paquetes NPM
+# JS Clp Utils
 
-Debes tener instalado **npm** y luego ejecutar el comando `npm install`.
+Librería para limpiar, formatear y generar valores a peso chileno.
 
-Esto instalará: 
-- Jest
-- EsLint
-- Prettier
-- Typescript
+## Contenido
 
-# Modificaciones del template para proyecto
+- [Instalación](#instalación)
+- [Cómo Usarlo](#cómo-usarlo)
+    - [`ClpModel`](#clpmodel)
+      - [Propiedades de ClpModel](#propiedades-de-clpmodel)
+      - [Crear ClpModel](#crear-clpmodel)
+    - [Funciones](#funciones)
+      - [Limpiar string con peso chileno](#limpiar-string-con-peso-chileno)
+      - [Formatear número a peso chileno](#formatear-número-a-peso-chileno)
+- [Testing](#testing)
 
-- Debes eliminar la carpeta **doc**.
-- En **package.json** debes reemplazar:
-  - **@ftapiat/ts-library-template** por el nombre de tu proyecto.
-  - **version** por la versión de tu proyecto.
-  - **description** por la descripción de tu proyecto.
-  - **keywords** por las palabras clave de tu proyecto.
-  - **author** por el autor de tu proyecto.
-  - Los datos de **repository** por la url de repositorio de tu proyecto.
-  - **license** por la licencia que usarás.
-  - **directories** puedes eliminar **doc** si eliminaste la carpeta.
-- Si vas a desarrollar para una versión superior de ES5, debes modificar la propiedad 
-**target** del archivo **tsconfig.json**.
+## Instalación
 
-# EsLint
+```bash
+npm install --save @ftapiat/js-clp-utils
+```
 
-Este proyecto tiene implementado ESLint. Este es una herramienta de linting que se encarga de revisar el código de 
-una forma automática y correcta.
+## Cómo usarlo
 
-Puede que al abrir el proyecto este esté desactivado, por lo que tendrás que activarlo manualmente. Si estás usando una 
-herramienta de JetBrains como PHPStorm o WebStorm, puedes activarla en la sección 
-**Languages & Frameworks > Code Quality Tools > ESLint**, seleccionando la opción **Automatic ESLint configuration** 
-de la siguiente forma:
+Puedes usar el modelo `ClpModel` para crear un valor de peso chileno, o puedes importar directamente las `funciones`:
 
-![Captura para implementar EsLint en IntelliJ (PHPStorm)](/doc/capturas/1.EsLinter-IntelliJ.PNG)
+### `ClpModel`
 
-# Prettier
+Representa a un Peso chileno.
 
-Este proyecto cuenta con Prettier, que es una herramienta que se encarga de formatear el código de una forma más bonita. 
-Esto lo realiza corrigiendo o agregando espacios, cambiando las comillas dobles por comillas simples
-(según el contexto), etc.
+#### Propiedades de ClpModel
 
-Para asociarlo con el comando de JetBrains para formatear código (**CTRL + ALT + L**), debes dirigirte a
-**Languages & Frameworks > JavaScript > Prettier**, seleccionando la opción **on 'Reformat Code' action** 
-de la siguiente forma:
+Este RUT tiene 4 propiedades:
+1. `value` Valor del peso, requerido en el constructor.
+3. `formatted` Valor del peso formateado con puntos. Calculado automáticamente.
+4. `formattedWithSign` Valor del peso con signo peso y puntos. Calculado automáticamente.
 
-![Captura para mapear Prettier con el comando de formateo de Código en IntelliJ (PHPStorm)](/doc/capturas/2.Prettier-IntelliJ.PNG)
+#### Crear ClpModel
 
-# Pruebas Jest
+- Puedes crear un `ClpModel` de la siguiente forma:
+```js
+import {ClpModel} from "@ftapia/js-clp-utils";
 
-## Escribir pruebas
+const clp = new ClpModel(100000);
+clp.value; // 100000
+clp.formatted; // "100.000"
+clp.formattedWithSign; // "$100.000"
+```
+- También puedes crearlo usando un string:
+```js
+import {ClpModel} from "@ftapia/js-clp-utils";
 
-Las pruebas deben estar escritas en la carpeta **src/__tests__**. Estas deben comprobar el funcionamiento correcto de 
-cada clase, función, componente de la aplicación. 
+const clp1 = ClpModel.fromString('100000');
+const clp2 = ClpModel.fromString('100.000');
+const clp3 = ClpModel.fromString('$100.000');
+const clp4 = ClpModel.fromString('$100000');
+const clp5 = ClpModel.fromString('$100000');
+const clp6 = ClpModel.fromString('100.0.00'); // Esta función no reconoce los float, por lo que el resultado será un entero (100000).
+const clp7 = ClpModel.fromString('abcde'); // ❌ Arrojará un error `TypeError`
+```
 
-La extensión del archivo debe ser **.test.ts**.
+### Funciones
 
-## Ejecutar pruebas
+Todas las características de `ClpModel` se subdividieron en varias funciones:
 
-Las puedes ejecutar con el comando `npm test`.
+#### Limpiar string con peso chileno
+```js
+import {cleanNumber} from "@ftapia/js-clp-utils";
+
+// Limpia el string de valores que no sean numéricos y retorna un `number`
+const number = cleanNumber('19101178.3'); // '191011783'
+const badNumber = cleanNumber('abcde'); // Esto arrojará un error `TypeError`
+```
+
+#### Formatear número a peso chileno
+
+- Con puntos:
+```js
+import {addDotsToNumber} from "@ftapia/js-clp-utils";
+
+const formattedWithDots = addDotsToNumber('191011783'); // '191.011.783'
+```
+
+- Con puntos y signo peso:
+```js
+import {addSignAndDotsToNumber} from "@ftapia/js-clp-utils";
+
+const formattedWithSignAndDots = addSignAndDotsToNumber('191011783'); // '$191.011.783'
+```
+
+## Testing
+
+```bash
+npm install
+npm test
+```
