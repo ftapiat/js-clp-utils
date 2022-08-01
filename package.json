@@ -1,6 +1,6 @@
 {
   "name": "@ftapiat/js-clp-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Librería para limpiar, formatear y generar valores a peso chileno",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
